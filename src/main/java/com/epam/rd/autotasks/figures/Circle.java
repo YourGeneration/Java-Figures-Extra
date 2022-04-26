@@ -13,6 +13,9 @@ class Circle extends Figure{
         this.radius = radius;
         if(area()==0) throw new IllegalArgumentException();
     }
+    public double roundTo2DecimalPlace(double value) {
+        return Math.round(value * 1000.0) / 1000.0;
+    }
 
     public Point getCenter(){
         return center;
@@ -32,10 +35,10 @@ class Circle extends Figure{
     }
     @Override
     public boolean isTheSame(Figure figure){
-        if(figure == null) return false;
         if(figure instanceof Circle){
             Circle otherCircle = (Circle) figure;
-            return center.getX() == otherCircle.center.getX() && center.getY() == otherCircle.center.getY() && radius == otherCircle.radius;
+            return roundTo2DecimalPlace(center.getX())  == roundTo2DecimalPlace(otherCircle.center.getX()) 
+            && roundTo2DecimalPlace(center.getY()) == roundTo2DecimalPlace(otherCircle.center.getY()) && roundTo2DecimalPlace(radius) == roundTo2DecimalPlace(otherCircle.radius);
         }
         else return false;
     }

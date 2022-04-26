@@ -12,13 +12,8 @@ class Triangle extends Figure {
         this.a = a;
         this.b = b;
         this.c = c;
-        if(area()==0) throw new IllegalArgumentException();
 
-        double area =  a.getX()* (b.getY() - c.getY()) +
-        b.getX() * (c.getY() - a.getY()) +
-        c.getX() * (a.getY() - b.getY());
-
-        if (area == 0) throw new IllegalArgumentException();
+        if (area() == 0) throw new IllegalArgumentException();
 
     }
     @Override
@@ -29,10 +24,24 @@ class Triangle extends Figure {
     public boolean isTheSame(Figure figure){
         if(figure instanceof Triangle){
             Triangle other = (Triangle) figure;
-            if(a.getX() == other.a.getX() && b.getX() == other.b.getX() && c.getX() == other.c.getX() 
-            && a.getY() == other.a.getY() && b.getY() == other.b.getY() && c.getY() == other.c.getY()) return true;
-            else return false;
+            return arePointsEqual(other);
         }
+        else return false;
+    }
+    public double roundTo3DecimalPlace(double value) {
+        return Math.round(value * 1000.0) / 1000.0;
+    }
+
+    private boolean arePointsEqual(Triangle A){
+        double counter = 3;
+        Point aPoints[] = {A.a, A.b, A.c};
+        Point bPoints[] = {a, b, c};
+        for(int i =0;i<3;i++){
+            for(int j = 0;j<3;j++){
+                if(roundTo3DecimalPlace(aPoints[i].getX()) == roundTo3DecimalPlace(bPoints[j].getX()) && roundTo3DecimalPlace(aPoints[i].getY()) == roundTo3DecimalPlace(bPoints[j].getY()))counter--;
+            }
+        }
+        if(counter<=0)return true;
         else return false;
     }
 
@@ -43,15 +52,10 @@ class Triangle extends Figure {
 
     
     public double area(){
-        double abLength = length(a, b);
-        double bcLength = length(b, c);
-        double caLength = length(c, a);
-
-        //using the heron formula
-        double p = (abLength+bcLength+caLength)*0.5;
-        double area = sqrt(p*(p-abLength)*(p-bcLength)*(p-caLength));
+        double area =  a.getX()* (b.getY() - c.getY()) +
+        b.getX() * (c.getY() - a.getY()) +
+        c.getX() * (a.getY() - b.getY());
         return area;
-
     }
 
 
